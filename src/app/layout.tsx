@@ -1,6 +1,16 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
+import logo from "../../src/images/fastcart.png"
+import Image from "next/image";
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import TelegramIcon from '@mui/icons-material/Telegram';
+
+
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +37,130 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <nav>
+          <header className="w-full bg-white shadow-md z-50 flex items-center py-4 px-4 md:px-[150px]">
+            <Link href="/" className="flex-shrink-0">
+              <Image src={logo} alt="logo" width={200} height={200} />
+            </Link>
+
+            <div className="hidden md:flex items-center pt-[10px]">
+              <Link className="pl-[120px]" href="/">Home</Link>
+              <Link className="pl-[50px]" href="/about">About</Link>
+              <Link className="pl-[50px]" href="/contact">Contact</Link>
+              <Link className="pl-[50px]" href="/signup">Sign Up</Link>
+              <input
+                className="bg-[#80808021] ml-[90px] rounded-[5px] w-[200px] h-[35px] pl-[10px] placeholder:text-[13px]"
+                placeholder="What are you looking for?"
+                type="text"
+              />
+
+              <Link href="/wishlist">
+                <button className="pl-[50px]">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"
+                    className="size-6 mb-[-6px] cursor-pointer">
+                    <path strokeLinecap="round" strokeLinejoin="round"
+                      d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 
+                      1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 
+                      3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                  </svg>
+                </button>
+              </Link>
+
+              <Link href="/cart">
+                <button className="pl-[35px]">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"
+                    className="size-6 mb-[-6px] cursor-pointer">
+                    <path strokeLinecap="round" strokeLinejoin="round"
+                      d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 
+                      14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 
+                      2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 
+                      14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 
+                      1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                  </svg>
+                </button>
+              </Link>
+
+              <button className="pl-[35px]">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                  viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"
+                  className="size-6 mb-[-6px] cursor-pointer">
+                  <path strokeLinecap="round" strokeLinejoin="round"
+                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 
+                      3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 
+                      14.998 0A17.933 17.933 0 0 1 12 
+                      21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                </svg>
+              </button>
+            </div>
+
+
+            <button className="md:hidden block absolute right-4">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"
+                className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round"
+                  d="M3 5h18M3 12h18M3 19h18" />
+              </svg>
+            </button>
+          </header>
+        </nav>
+
+        <main className="flex-grow">
+          {children}
+        </main>
+
+
+        <footer className="bg-[black] text-white py-8 px-4">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-6 max-[638px]:grid-cols-1">
+            <div className="space-y-3 ml-[100px] max-[638px]:ml-[10px]">
+              <h3 className="text-xl font-semibold">Exclusive</h3>
+              <h4 className="text-lg">Subscribe</h4>
+              <h5 className="text-sm">Get 10% off your first order</h5>
+              <div className="relative">
+                <input
+                  className="w-[200px] py-2 pl-2 text-gray-700 rounded-[4px] border border-white bg-transparent placeholder-gray-400 placeholder:text-[13px]"
+                  placeholder="Enter your email"
+                  type="email"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-3 ml-[120px] max-[638px]:ml-[10px]">
+              <h3 className="text-xl font-semibold">Support</h3>
+              <h5 className="text-sm">111 Bijoy sarani, Dhaka, DH 1515, Bangladesh.</h5>
+              <h5 className="text-sm">exclusive@gmail.com</h5>
+              <h5 className="text-sm">+88015-88888-9999</h5>
+            </div>
+
+            <div className="space-y-3 ml-[130px] max-[638px]:ml-[10px]">
+              <h3 className="text-xl font-semibold">Account</h3>
+              <h4 className="text-sm hover:text-gray-400 cursor-pointer">My Account</h4>
+              <h4 className="text-sm hover:text-gray-400 cursor-pointer">Card</h4>
+              <h4 className="text-sm hover:text-gray-400 cursor-pointer">Wishlist</h4>
+              <h4 className="text-sm hover:text-gray-400 cursor-pointer">Shop</h4>
+            </div>
+
+            <div className="space-y-3 ml-[80px] max-[638px]:ml-[10px]">
+              <h3 className="text-xl font-semibold">Quick Link</h3>
+              <h4 className="text-sm hover:text-gray-400 cursor-pointer">Privacy Policy</h4>
+              <h4 className="text-sm hover:text-gray-400 cursor-pointer">Terms Of Use</h4>
+              <h4 className="text-sm hover:text-gray-400 cursor-pointer">FAQ</h4>
+              <h4 className="text-sm hover:text-gray-400 cursor-pointer">Contact</h4>
+            </div>
+
+            <div className="space-y-3 max-[638px]:ml-[10px]">
+              <h3 className="text-xl font-semibold">Social</h3>
+              <div className="flex gap-[10px]">
+                <FacebookIcon />
+                <InstagramIcon />
+                <TwitterIcon />
+                <TelegramIcon />
+              </div>
+            </div>
+          </div>
+        </footer>
       </body>
     </html>
   );
