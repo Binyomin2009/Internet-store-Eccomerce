@@ -1,3 +1,5 @@
+"use client"
+
 import Filter from '@/components/filter/filter'
 import React from 'react'
 

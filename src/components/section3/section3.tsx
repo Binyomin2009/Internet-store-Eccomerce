@@ -40,13 +40,13 @@ export default function Section3() {
 
     return (
         <div className="p-6">
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-6 flex-wrap">
                 <div>
                     <p className="text-[#DB4444] font-medium">Categories</p>
                     <h1 className="text-2xl font-bold">Browse By Category</h1>
                 </div>
 
-                <div className="flex gap-2">
+                <div className="flex gap-2 mt-4 sm:mt-0">
                     <button onClick={handlePrev} className="bg-gray-200 p-2 rounded-full hover:bg-gray-300 transition">
                         <ArrowLeft />
                     </button>
@@ -56,13 +56,13 @@ export default function Section3() {
                 </div>
             </div>
 
-            <div className="flex gap-4 transition-all duration-700 ease-in-out justify-around">
+            <div className="flex gap-4 transition-all duration-700 ease-in-out justify-center sm:justify-around flex-wrap">
                 {visibleCategories.map((cat) => (
                     <div
                         key={cat.id}
                         onClick={() => setActive(cat.name)}
                         className={`cursor-pointer border rounded-md p-6 flex flex-col items-center justify-center w-[140px] h-[130px] transition-all
-              ${active === cat.name
+                            ${active === cat.name
                                 ? "bg-[#DB4444] text-white"
                                 : "bg-white hover:shadow-md hover:scale-105 text-black"
                             }`}
@@ -75,3 +75,4 @@ export default function Section3() {
         </div>
     );
 }
+    

@@ -1,51 +1,51 @@
-import React from 'react'
-import frame594 from "../../../src/images/Frame 694.png"
-import Image from 'next/image'
+import React from 'react';
+import frame594 from "../../../src/images/Frame 694.png";
+import Image from 'next/image';
 
 const Enhance = () => {
     return (
-        <div>
-            <div className='w-[100%] h-[450px] bg-[black] text-[white] flex justify-between p-[20px_40px] mt-[150px] mb-[140]'  >
+        <div className="bg-black text-white mt-[150px] mb-[140px] p-[20px_40px]">
+            <div className="flex justify-between items-center">
+                {/* Left section */}
+                <div className="w-full sm:w-[300px]">
+                    <p className="text-[#00FF66] mt-[40px]">Categories</p>
+                    <h1 className="text-[35px] font-[700] mt-[20px] sm:w-[250px]">Enhance Your Music Experience</h1>
 
-                <div >
-                    <p className='text-[#00FF66] mt-[40px] '>Categories</p>
-
-                    <h1 className='text-[35px] font-[700] w-[300px] mt-[20px]  sm:w-[250px]  '>Enhance Your Music Experience</h1>
-
-                    <div className='flex gap-[20px] mt-[30px]  sm:flex-wrap '>
-
-                        <div className='w-[80px] h-[80px] rounded-[50%] bg-[white] text-[black] text-center pt-[10px] '>
-                            <h3 className='font-[650] '>23</h3>
-                            <p className='font-[550] '>Hours</p>
+                    <div className="flex gap-[20px] mt-[30px] sm:flex-wrap sm:gap-[15px]">
+                        {/* Time circles */}
+                        <div className="w-[80px] h-[80px] rounded-full bg-white text-black text-center flex flex-col justify-center items-center">
+                            <h3 className="font-[650]">23</h3>
+                            <p className="font-[550]">Hours</p>
                         </div>
 
-                        <div className='w-[80px] h-[80px] rounded-[50%] bg-[white] text-[black] text-center pt-[10px] '>
-                            <h3 className='font-[650] '>05</h3>
-                            <p className='font-[550] '>Days</p>
+                        <div className="w-[80px] h-[80px] rounded-full bg-white text-black text-center flex flex-col justify-center items-center">
+                            <h3 className="font-[650]">05</h3>
+                            <p className="font-[550]">Days</p>
                         </div>
 
-                        <div className='w-[80px] h-[80px] rounded-[50%] bg-[white] text-[black] text-center pt-[10px] '>
-                            <h3 className='font-[650] '>59</h3>
-                            <p className='font-[550] '>Minutes</p>
+                        <div className="w-[80px] h-[80px] rounded-full bg-white text-black text-center flex flex-col justify-center items-center">
+                            <h3 className="font-[650]">59</h3>
+                            <p className="font-[550]">Minutes</p>
                         </div>
 
-                        <div className='w-[80px] h-[80px] rounded-[50%] bg-[white] text-[black] text-center pt-[10px] '>
-                            <h3 className='font-[650] '>35</h3>
-                            <p className='font-[550] '>Seconds</p>
+                        <div className="w-[80px] h-[80px] rounded-full bg-white text-black text-center flex flex-col justify-center items-center">
+                            <h3 className="font-[650]">35</h3>
+                            <p className="font-[550]">Seconds</p>
                         </div>
-
                     </div>
 
-                    <div className='w-[120px] h-[40px] pt-[7px] rounded-[5px] text-center bg-[#00FF66] cursor-pointer text-[black] mt-[30px] ' >Buy Now!</div>
+                    <div className="w-[120px] h-[40px] bg-[#00FF66] text-black rounded-[5px] text-center cursor-pointer mt-[30px] pt-[7px]">
+                        Buy Now!
+                    </div>
                 </div>
 
-                <div className="seven_right">
-                    <Image className='w-[450px] mt-[70px] ' src={frame594} alt="" />
+                {/* Right section with image */}
+                <div className="w-full sm:w-[450px] mt-[70px] sm:mt-0">
+                    <Image className="w-full" src={frame594} alt="Music Experience Image" />
                 </div>
-
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Enhance
+export default Enhance;

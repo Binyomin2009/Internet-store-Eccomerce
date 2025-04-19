@@ -12,6 +12,7 @@ const Home = () => {
       <Section2 />
       <Section3 />
       <Enhance />
+      <Section2 />
       <Section4 />
       <Varanty />
     </div>

@@ -1,3 +1,5 @@
+"use client"
+
 import { Button, TextField, Input } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Link from "next/link";

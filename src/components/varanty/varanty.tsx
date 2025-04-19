@@ -1,5 +1,4 @@
-// This is a placeholder for your Varanty component
-// Replace this with your actual Varanty component implementation
+
 
 export default function Varanty() {
     return (

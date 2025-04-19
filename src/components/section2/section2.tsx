@@ -76,13 +76,13 @@ export default function Section2() {
 
     return (
         <div className="p-6 overflow-hidden">
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-6 flex-wrap">
                 <div>
                     <p className="text-[#DB4444] font-medium">Today’s</p>
                     <h1 className="text-2xl font-bold">Flash Sales</h1>
                 </div>
 
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 justify-center sm:justify-start mt-4 sm:mt-0">
                     {["Days", "Hours", "Minutes", "Seconds"].map((label, i) => (
                         <div key={label} className="text-center">
                             <p className="font-bold text-xl">
@@ -94,7 +94,7 @@ export default function Section2() {
                     ))}
                 </div>
 
-                <div className="flex gap-2">
+                <div className="flex gap-2 mt-4 sm:mt-0">
                     <button onClick={handlePrev} className="bg-gray-200 p-2 rounded-full hover:bg-gray-300 transition">
                         <ArrowLeft />
                     </button>
@@ -104,11 +104,11 @@ export default function Section2() {
                 </div>
             </div>
 
-            <div className="flex gap-4 transition-all duration-700 ease-in-out justify-around">
+            <div className="flex gap-4 transition-all duration-700 ease-in-out justify-center sm:justify-around flex-wrap">
                 {visibleProducts.map((prod) => (
                     <div
                         key={prod.id}
-                        className="bg-gray-100 p-5 w-full max-w-[250px] rounded-lg relative group transition-transform duration-300 hover:shadow-xl hover:scale-[1.02]"
+                        className="bg-gray-100 p-5 w-full sm:w-[200px] md:w-[250px] rounded-lg relative group transition-transform duration-300 hover:shadow-xl hover:scale-[1.02]"
                     >
                         <Image
                             src={prod.image}
@@ -143,7 +143,9 @@ export default function Section2() {
                 ))}
             </div>
             <Link href="/products">
-                <button className="bg-[#DB4444] p-[10px_15px] text-[white] font-[600] ml-[45%] mt-[20px] cursor-pointer">View all Products</button>
+                <button className="bg-[#DB4444] p-[10px_15px] text-[white] font-[600] mx-auto mt-[20px] block cursor-pointer">
+                    View all Products
+                </button>
             </Link>
         </div>
     );
