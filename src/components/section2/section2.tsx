@@ -5,28 +5,19 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Image from "next/image";
-import img1 from "../../../src/images/Services.png";
-import img2 from "../../../src/images/Services (2).png";
-import img3 from "../../../src/images/Services (3).png";
-import img4 from "../../../src/images/Services (3).png";
-import img5 from "../../../src/images/Services.png";
-import img6 from "../../../src/images/Services (2).png";
-import { IProducts } from "../../../interface";
 import Link from "next/link";
-
-const products: IProducts = [
-    { id: 1, name: "Computer", price: 313, image: img1 },
-    { id: 2, name: "Keyboard", price: 99, image: img2 },
-    { id: 3, name: "Monitor", price: 225, image: img3 },
-    { id: 4, name: "Mouse", price: 49, image: img4 },
-    { id: 5, name: "Headphones", price: 129, image: img5 },
-    { id: 6, name: "Webcam", price: 89, image: img6 },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { getProd } from "@/api/productSlice";
+import { IProducts } from "../../../interface";
 
 export default function Section2() {
     const [timeLeft, setTimeLeft] = useState({});
     const [startIndex, setStartIndex] = useState(0);
     const itemsPerSlide = 4;
+    const data = useSelector((store: any) => store.product.data)
+    console.log(data);
+
+    const dispatch = useDispatch()
 
     const endDate = new Date();
     endDate.setDate(endDate.getDate() + 3);
@@ -47,7 +38,6 @@ export default function Section2() {
         return () => clearInterval(interval);
     }, []);
 
-    // Автопрокрутка по одному
     useEffect(() => {
         const autoplay = setInterval(() => {
             handleNext();
@@ -57,37 +47,42 @@ export default function Section2() {
     }, [startIndex]);
 
     const handleNext = () => {
-        setStartIndex((prev) => (prev + 1) % products.length);
+        setStartIndex((prev) => (prev + 1) % (data?.length || 1));
     };
 
     const handlePrev = () => {
-        setStartIndex((prev) => (prev - 1 + products.length) % products.length);
+        setStartIndex((prev) => (prev - 1 + (data?.length || 1)) % (data?.length || 1));
     };
 
     const getVisibleProducts = () => {
+        if (!data?.length) return [];
         const visible = [];
         for (let i = 0; i < itemsPerSlide; i++) {
-            visible.push(products[(startIndex + i) % products.length]);
+            visible.push(data[(startIndex + i) % data.length]);
         }
         return visible;
     };
 
     const visibleProducts = getVisibleProducts();
 
+    useEffect(() => {
+        dispatch(getProd())
+    }, [dispatch])
+
     return (
         <div className="p-6 overflow-hidden">
             <div className="flex justify-between items-center mb-6 flex-wrap">
                 <div>
-                    <p className="text-[#DB4444] font-medium">Today’s</p>
+                    <p className="text-[#DB4444] font-medium">Today's</p>
                     <h1 className="text-2xl font-bold">Flash Sales</h1>
                 </div>
 
                 <div className="flex items-center gap-4 justify-center sm:justify-start mt-4 sm:mt-0">
-                    {["Days", "Hours", "Minutes", "Seconds"].map((label, i) => (
-                        <div key={label} className="text-center">
+                    {["Days", "Hours", "Minutes", "Seconds"].map((label) => (
+                        <div key={`timer-${label}`} className="text-center">
                             <p className="font-bold text-xl">
-                                {Object.values(timeLeft)[i]}
-                                {i < 3 && <span className="text-[#DB4444]"> : </span>}
+                                {timeLeft[label.toLowerCase()]}
+                                {label !== "Seconds" && <span className="text-[#DB4444]"> : </span>}
                             </p>
                             <span className="text-[10px] text-gray-500">{label}</span>
                         </div>
@@ -105,14 +100,16 @@ export default function Section2() {
             </div>
 
             <div className="flex gap-4 transition-all duration-700 ease-in-out justify-center sm:justify-around flex-wrap">
-                {visibleProducts.map((prod) => (
-                    <div
-                        key={prod.id}
+                {data?.products?.map((prod: IProducts) => {
+                    console.log(prod);
+
+                    return <div
+                        key={`${prod?.id}`}
                         className="bg-gray-100 p-5 w-full sm:w-[200px] md:w-[250px] rounded-lg relative group transition-transform duration-300 hover:shadow-xl hover:scale-[1.02]"
                     >
                         <Image
-                            src={prod.image}
-                            alt={prod.name}
+                            src={`https://store-api.softclub.tj/images/${prod?.image}`}
+                            alt={prod?.productName}
                             width={300}
                             height={300}
                             className="w-full h-[200px] object-contain transition-transform duration-300 group-hover:scale-105"
@@ -127,21 +124,22 @@ export default function Section2() {
                             Add To Cart
                         </button>
 
-                        <p className="mt-2 font-medium">{prod.name}</p>
-                        <p className="text-[red]">{prod.price}$</p>
+                        <p className="mt-2 font-medium">{prod?.productName}</p>
+                        <p className="text-[red]">{prod?.price}$</p>
                     </div>
-                ))}
+                }
+                )}
             </div>
 
             <div className="mt-4 flex justify-center gap-2">
-                {products.map((_, idx) => (
+                {data?.length > 0 && Array.from({ length: Math.ceil(data.length / itemsPerSlide) }).map((_, index) => (
                     <div
-                        key={idx}
-                        className={`w-2 h-2 rounded-full ${idx === startIndex ? "bg-[#DB4444]" : "bg-gray-300"
-                            } transition-all duration-300`}
+                        key={`indicator-${index}`}
+                        className={`w-2 h-2 rounded-full ${index === Math.floor(startIndex / itemsPerSlide) ? "bg-[#DB4444]" : "bg-gray-300"}`}
                     />
                 ))}
             </div>
+
             <Link href="/products">
                 <button className="bg-[#DB4444] p-[10px_15px] text-[white] font-[600] mx-auto mt-[20px] block cursor-pointer">
                     View all Products

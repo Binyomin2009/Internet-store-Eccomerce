@@ -1,11 +1,7 @@
 "use client"
 
-import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Link from "next/link";
-import logo from "../../src/images/fastcart.png"
-import Image from "next/image";
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
@@ -38,7 +34,7 @@ export default function RootLayout({
       >
         <Provider store={store}>
 
-          <nav>
+          <nav className="fixed z-[3] w-full">
             <Navigation />
           </nav>
 
