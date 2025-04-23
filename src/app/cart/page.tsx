@@ -10,7 +10,7 @@ import image from "../../../src/images/Frame 874.png"
 
 const Cart = () => {
 
-    const data: IProducts = [
+    const data : IProducts = [
         {
             id: 1,
             name: "computer",

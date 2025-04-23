@@ -1,41 +1,46 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
-import { ArrowLeft, ArrowRight, Camera, Monitor, Smartphone, Headphones, Gamepad } from "lucide-react";
-
-const categories = [
-    { id: 1, name: "Phones", icon: <Smartphone size={28} /> },
-    { id: 2, name: "Computers", icon: <Monitor size={28} /> },
-    { id: 4, name: "Camera", icon: <Camera size={28} /> },
-    { id: 5, name: "Headphones", icon: <Headphones size={28} /> },
-    { id: 6, name: "Gaming", icon: <Gamepad size={28} /> },
-    { id: 7, name: "Drones", icon: <Camera size={28} /> },
-    { id: 8, name: "TVs", icon: <Monitor size={28} /> },
-];
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import Image from "next/image";
+import { GetSubCateg } from "@/api/subCategSlice";
 
 export default function Section3() {
     const [startIndex, setStartIndex] = useState(0);
     const [active, setActive] = useState("Camera");
     const itemsPerSlide = 6;
+    const data = useSelector((store: any) => store.subCateg.data);
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
+        dispatch(GetSubCateg());
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (!data || data.length === 0) return;
+
         const autoScroll = setInterval(() => {
-            handleNext();
+            setStartIndex(prev => (prev + 1) % data.length);
         }, 4000);
+
         return () => clearInterval(autoScroll);
-    }, [startIndex]);
+    }, [data?.length]);
+
+    if (!data || data.length === 0) return null;
 
     const handleNext = () => {
-        setStartIndex((prev) => (prev + 1) % categories.length);
+        setStartIndex(prev => (prev + 1) % data.length);
     };
 
     const handlePrev = () => {
-        setStartIndex((prev) => (prev - 1 + categories.length) % categories.length);
+        setStartIndex(prev => (prev - 1 + data.length) % data.length);
     };
 
     const visibleCategories = [];
     for (let i = 0; i < itemsPerSlide; i++) {
-        visibleCategories.push(categories[(startIndex + i) % categories.length]);
+        visibleCategories.push(data[(startIndex + i) % data.length]);
     }
 
     return (
@@ -47,32 +52,42 @@ export default function Section3() {
                 </div>
 
                 <div className="flex gap-2 mt-4 sm:mt-0">
-                    <button onClick={handlePrev} className="bg-gray-200 p-2 rounded-full hover:bg-gray-300 transition">
+                    <button
+                        onClick={handlePrev}
+                        className="bg-gray-200 p-2 rounded-full hover:bg-gray-300 transition"
+                    >
                         <ArrowLeft />
                     </button>
-                    <button onClick={handleNext} className="bg-gray-200 p-2 rounded-full hover:bg-gray-300 transition">
+                    <button
+                        onClick={handleNext}
+                        className="bg-gray-200 p-2 rounded-full hover:bg-gray-300 transition"
+                    >
                         <ArrowRight />
                     </button>
                 </div>
             </div>
 
             <div className="flex gap-4 transition-all duration-700 ease-in-out justify-center sm:justify-around flex-wrap">
-                {visibleCategories.map((cat) => (
+                {visibleCategories.map((cat: any, index: number) => (
                     <div
-                        key={cat.id}
-                        onClick={() => setActive(cat.name)}
+                        key={cat?.id || index}
+                        onClick={() => setActive(cat?.categoryName)}
                         className={`cursor-pointer border rounded-md p-6 flex flex-col items-center justify-center w-[140px] h-[130px] transition-all
-                            ${active === cat.name
+                        ${active === cat?.categoryName
                                 ? "bg-[#DB4444] text-white"
                                 : "bg-white hover:shadow-md hover:scale-105 text-black"
                             }`}
                     >
-                        <div className="mb-2">{cat.icon}</div>
-                        <span className="font-medium text-sm">{cat.name}</span>
+                        <Image
+                            src={`https://store-api.softclub.tj/images/${cat?.categoryImage}`}
+                            alt={"category"}
+                            width={300}
+                            height={300}
+                        />
+                        <span className="font-medium text-sm">{cat?.categoryName}</span>
                     </div>
                 ))}
             </div>
         </div>
     );
 }
-    

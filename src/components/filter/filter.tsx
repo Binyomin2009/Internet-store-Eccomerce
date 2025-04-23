@@ -7,7 +7,7 @@ export default function Filter() {
     const ratings = [5, 4, 3, 2, 1];
 
     return (
-        <div className="w-64 p-4 border-r space-y-6 text-gray-700 sm:flex sm:flex-wrap sm:w-[100%] sm:gap-[70px] sm:items-center">
+        <div className="w-[30%] p-4 border-r space-y-6 text-gray-700">
             <div>
                 <h3 className="font-semibold mb-2">Category</h3>
                 <div className="space-y-1 text-sm">

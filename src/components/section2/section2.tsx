@@ -8,16 +8,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { getProd } from "@/api/productSlice";
-import { IProducts } from "../../../interface";
+
 
 export default function Section2() {
     const [timeLeft, setTimeLeft] = useState({});
     const [startIndex, setStartIndex] = useState(0);
     const itemsPerSlide = 4;
-    const data = useSelector((store: any) => store.product.data)
-    console.log(data);
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+
+    const products = useSelector((store: any) => store.product.data?.products || []);
 
     const endDate = new Date();
     endDate.setDate(endDate.getDate() + 3);
@@ -47,18 +47,18 @@ export default function Section2() {
     }, [startIndex]);
 
     const handleNext = () => {
-        setStartIndex((prev) => (prev + 1) % (data?.length || 1));
+        setStartIndex((prev) => (prev + 1) % (products.length || 1));
     };
 
     const handlePrev = () => {
-        setStartIndex((prev) => (prev - 1 + (data?.length || 1)) % (data?.length || 1));
+        setStartIndex((prev) => (prev - 1 + (products.length || 1)) % (products.length || 1));
     };
 
     const getVisibleProducts = () => {
-        if (!data?.length) return [];
+        if (!products.length) return [];
         const visible = [];
         for (let i = 0; i < itemsPerSlide; i++) {
-            visible.push(data[(startIndex + i) % data.length]);
+            visible.push(products[(startIndex + i) % products.length]);
         }
         return visible;
     };
@@ -66,8 +66,8 @@ export default function Section2() {
     const visibleProducts = getVisibleProducts();
 
     useEffect(() => {
-        dispatch(getProd())
-    }, [dispatch])
+        dispatch(getProd());
+    }, [dispatch]);
 
     return (
         <div className="p-6 overflow-hidden">
@@ -100,16 +100,14 @@ export default function Section2() {
             </div>
 
             <div className="flex gap-4 transition-all duration-700 ease-in-out justify-center sm:justify-around flex-wrap">
-                {data?.products?.map((prod: IProducts) => {
-                    console.log(prod);
-
-                    return <div
-                        key={`${prod?.id}`}
+                {visibleProducts.map((prod) => (
+                    <div
+                        key={`product-${prod.id}`}
                         className="bg-gray-100 p-5 w-full sm:w-[200px] md:w-[250px] rounded-lg relative group transition-transform duration-300 hover:shadow-xl hover:scale-[1.02]"
                     >
                         <Image
-                            src={`https://store-api.softclub.tj/images/${prod?.image}`}
-                            alt={prod?.productName}
+                            src={`https://store-api.softclub.tj/images/${prod.image}`}
+                            alt={prod.productName}
                             width={300}
                             height={300}
                             className="w-full h-[200px] object-contain transition-transform duration-300 group-hover:scale-105"
@@ -117,22 +115,23 @@ export default function Section2() {
 
                         <div className="absolute top-4 right-4 flex flex-col gap-2">
                             <FavoriteBorderIcon className="text-gray-600 hover:text-red-500 cursor-pointer transition duration-300" />
-                            <VisibilityIcon className="text-gray-600 hover:text-blue-500 cursor-pointer transition duration-300" />
+                            <Link href={`/products/${prod.id}`}>
+                                <VisibilityIcon className="text-gray-600 hover:text-blue-500 cursor-pointer transition duration-300" />
+                            </Link>
                         </div>
 
                         <button className="bg-black text-white w-full p-2 mt-3 opacity-0 group-hover:opacity-100 transition duration-300">
                             Add To Cart
                         </button>
 
-                        <p className="mt-2 font-medium">{prod?.productName}</p>
-                        <p className="text-[red]">{prod?.price}$</p>
+                        <p className="mt-2 font-medium">{prod.productName}</p>
+                        <p className="text-[red]">{prod.hasDiscount ? `${prod.discountPrice}$` : `${prod.price}$`}</p>
                     </div>
-                }
-                )}
+                ))}
             </div>
 
             <div className="mt-4 flex justify-center gap-2">
-                {data?.length > 0 && Array.from({ length: Math.ceil(data.length / itemsPerSlide) }).map((_, index) => (
+                {products.length > 0 && Array.from({ length: Math.ceil(products.length / itemsPerSlide) }).map((_, index) => (
                     <div
                         key={`indicator-${index}`}
                         className={`w-2 h-2 rounded-full ${index === Math.floor(startIndex / itemsPerSlide) ? "bg-[#DB4444]" : "bg-gray-300"}`}
