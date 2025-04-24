@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProd } from "@/api/productSlice";
 import { IProducts } from "../../../interface";
 import Link from "next/link";
+import { AddToCardSlice } from "@/api/cartSlice";
 
 const Card = () => {
 
@@ -16,7 +17,7 @@ const Card = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    getProd()
+    dispatch(getProd())
   }, [dispatch])
 
   return (
@@ -28,7 +29,7 @@ const Card = () => {
               className="bg-gray-100 p-5 w-full max-w-[250px] rounded-lg relative group h-[400px]"
               key={el.id}
             >
-              <Image src={`https://store-api.softclub.tj/images/${el.image}`} alt="Product" width={300} height={200} />
+              <Image src={`https://store-api.softclub.tj/images/${el.image}`} alt="Product" width={300} height={100} />
 
               <div className="absolute top-4 right-4 flex flex-col gap-2">
                 <Link href={"/"}>
@@ -41,7 +42,8 @@ const Card = () => {
                 </Link>
               </div>
 
-              <button className="bg-black text-white w-full p-2 mt-3 opacity-0 group-hover:opacity-100 transition duration-300">
+              <button className="bg-black text-white w-full p-2 mt-3 opacity-0 group-hover:opacity-100 transition duration-300"
+                onClick={() => { dispatch(AddToCardSlice(el.id)) }}>
                 Add To Cart
               </button>
 

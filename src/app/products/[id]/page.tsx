@@ -6,20 +6,26 @@ import { ShoppingCart, Add, Remove, LocalShipping, Replay } from "@mui/icons-mat
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { ProdById } from "@/api/getByIdSlice";
+import { useParams } from "next/navigation";
 
 let imagesBaseUrl = "https://store-api.softclub.tj/images/";
 
 const ProductByid = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(null);
+  const { id } = useParams()
 
-  const data = useSelector((store: any) => store.getbyid.data || [])
+
+  const data = useSelector((store: any) => store?.getbyid?.data)
+
+  console.log(data.color);
+
 
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(ProdById())
-  }, []);
+    dispatch(ProdById(id))
+  }, [id]);
 
   useEffect(() => {
     if (data?.images?.length > 0) {
@@ -27,7 +33,7 @@ const ProductByid = () => {
     }
   }, [data]);
 
-  const handleImageClick = (image) => {
+  const handleImageClick = (image: any) => {
     setSelectedImage(image);
   };
 
@@ -40,12 +46,14 @@ const ProductByid = () => {
               src={imagesBaseUrl + selectedImage.images}
               alt="Main Product"
               className="w-full h-full object-cover rounded-lg"
+              width={300}
+              height={300}
             />
           )}
         </div>
 
         <div className="flex gap-2 overflow-x-auto">
-          {data?.images?.map((el: any) => (
+          {data?.data?.images?.map((el: any) => (
             <div
               key={el.id}
               className={`w-20 h-20 cursor-pointer border-2 rounded-lg ${selectedImage?.id === el.id ? "border-blue-500" : "border-gray-200"
@@ -62,10 +70,12 @@ const ProductByid = () => {
         </div>
       </div>
 
+
+
       <div className="w-2/3">
-        <h2 className="text-2xl font-semibold">{data?.productName}</h2>
+        <h2 className="text-2xl font-semibold">{data?.data?.productName}</h2>
         <Rating value={4} readOnly className="my-2" />
-        <p className="text-xl font-bold text-gray-800">{`$${data?.price}`}</p>
+        <p className="text-xl font-bold text-gray-800">{`$${data?.data?.price}`}</p>
 
         <div className="mt-4 flex items-center gap-2">
           <p className="text-gray-600">Количество:</p>

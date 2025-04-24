@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { getProd } from "@/api/productSlice";
+import { AddToCardSlice } from "@/api/cartSlice";
 
 
 export default function Section2() {
@@ -67,6 +68,7 @@ export default function Section2() {
 
     useEffect(() => {
         dispatch(getProd());
+        dispatch(AddToCardSlice())
     }, [dispatch]);
 
     return (
@@ -120,7 +122,9 @@ export default function Section2() {
                             </Link>
                         </div>
 
-                        <button className="bg-black text-white w-full p-2 mt-3 opacity-0 group-hover:opacity-100 transition duration-300">
+                        <button className="bg-black text-white w-full p-2 mt-3 opacity-0 group-hover:opacity-100 transition duration-300"
+                            onClick={() => dispatch(AddToCardSlice(prod.id))}>
+
                             Add To Cart
                         </button>
 

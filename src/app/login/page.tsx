@@ -5,7 +5,7 @@ import GoogleIcon from "@mui/icons-material/Google";
 import { useState } from "react";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../../api/authSlice.js"
+import { loginUser } from "../../api/authSlice"
 
 const Login = () => {
 

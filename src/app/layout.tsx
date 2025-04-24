@@ -8,7 +8,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import Navigation from "@/components/drawer/drawer";
 import { Provider } from "react-redux";
-import {store} from "../store/store"
+import { store } from "../store/store"
 
 
 
@@ -34,9 +34,11 @@ export default function RootLayout({
       >
         <Provider store={store}>
 
-          <nav className="fixed z-[3] w-full">
+          <nav className="sticky top-0 z-[3] bg-white shadow-md">
             <Navigation />
           </nav>
+
+
 
           <main className="flex-grow">
             {children}

@@ -24,7 +24,7 @@ export default function Navigation() {
 
     return (
         <nav>
-            <header className="w-full bg-white shadow-md z-50 flex items-center justify-between py-4 px-4 md:px-[150px]">
+            <header className="w-full bg-white shadow-md flex items-center justify-between py-4 px-4 md:px-[150px]">
                 <Link href="/" className="flex-shrink-0">
                     <Image src={logo || "/placeholder.svg"} alt="logo" width={150} height={50} />
                 </Link>
@@ -59,13 +59,11 @@ export default function Navigation() {
                     </button>
                 </div>
 
-                {/* Mobile Menu Button */}
                 <button className="md:hidden block" onClick={toggleDrawer} aria-label="Toggle menu">
                     <Menu className="w-6 h-6" />
                 </button>
             </header>
 
-            {/* Mobile Drawer */}
             <Drawer
                 anchor="right"
                 open={drawerOpen}

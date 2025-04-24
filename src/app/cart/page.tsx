@@ -3,30 +3,33 @@
 import { Button, TextField, Input } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Link from "next/link";
-import { IProducts } from "../../../interface";
 import Image from "next/image";
-import image from "../../../src/images/Frame 874.png"
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { DelAllProdInCart, DelProdCart, GetCard } from "@/api/cartSlice";
+import axiosInstance from "../../../utils/axiosInstance";
 
 
 const Cart = () => {
+    const [quantities, setQuantities] = useState({});
 
-    const data : IProducts = [
-        {
-            id: 1,
-            name: "computer",
-            price: 313,
-            image: { image }
+    const data = useSelector((store: any) => store?.cart?.data)
+
+    const handleQuantityChange = async (id: any, newQuantity: any) => {
+        try {
+            setQuantities((prev) => ({ ...prev, [id]: newQuantity }));
+            await axiosInstance.put(`Cart/update-quantity?id=${id}&quantity=${newQuantity}`);
+            GetCard();
+        } catch (error) {
+            console.error(error);
         }
-    ]
-    // const handleQuantityChange = async (id, newQuantity) => {
-    //     try {
-    //         setQuantities((prev) => ({ ...prev, [id]: newQuantity }));
-    //         await axiosInstance.put(`Cart/update-quantity?id=${id}&quantity=${newQuantity}`);
-    //         getProductsCart();
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // };
+    };
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(GetCard())
+    }, [dispatch])
+
 
     return (
         <div className="max-w-4xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
@@ -42,37 +45,35 @@ const Cart = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data?.map((el) => (
+                    {data?.map((el: any) => (
                         <tr key={el.id} className="border-b">
                             <td className="p-2 flex items-center gap-2">
                                 <Image
-                                    src={el.image}
                                     width={300}
                                     height={300}
-                                    alt={el.productName}
-                                    // src={`https://store-api.softclub.tj/images/${el?.product?.image}`}
-                                    // alt={el?.product?.productName}
+                                    src={`https://store-api.softclub.tj/images/${el?.product?.image}`}
+                                    alt={el?.product?.productName}
                                     className="w-10 h-10"
                                 />
-                                {/* {el?.product?.productName} */}
+                                {el?.product?.productName}
                             </td>
-                            {/* <td className="p-2">${el?.product?.price}</td> */}
+                            <td className="p-2">${el?.product?.price}</td>
                             <td className="p-2">${el.price}</td>
                             <td className="p-2">
                                 <Input
                                     type="number"
-                                    // value={quantities[el.id] || 0}
-                                    // onChange={(e) =>
-                                    //     handleQuantityChange(el.id, parseInt(e.target.value, 10))
-                                    // }
+                                    value={quantities[el.id] || 0}
+                                    onChange={(e) =>
+                                        handleQuantityChange(el.id, parseInt(e.target.value, 10))
+                                    }
                                     inputProps={{ min: 1 }}
                                     style={{ width: "60px" }}
                                 />
                             </td>
-                            {/* <td className="p-2 font-bold">${el?.product?.price * (quantities[el.id] || 0)}</td> */}
+                            <td className="p-2 font-bold">${el?.product?.price * (quantities[el.id] || 0)}</td>
                             <td className="p-2">
                                 <Button color="error"
-                                // onClick={() => handleDelete(el.id)}
+                                    onClick={() => dispatch(DelProdCart(el.id))}
                                 >
                                     <DeleteIcon />
                                 </Button>
@@ -103,7 +104,7 @@ const Cart = () => {
                     <Button variant="outlined">Return To Shop</Button>
                 </Link>
                 <Button variant="outlined" color="error"
-                // onClick={handleRemoveAll}
+                    onClick={() =>dispatch(DelAllProdInCart())}
                 >
                     Remove all
                 </Button>
