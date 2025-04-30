@@ -18,7 +18,6 @@ const ProductByid = () => {
 
   const data = useSelector((store: any) => store?.getbyid?.data)
 
-  console.log(data.color);
 
 
   const dispatch = useDispatch()
