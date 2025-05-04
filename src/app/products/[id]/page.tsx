@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ProdById } from "@/api/getByIdSlice";
 import { useParams } from "next/navigation";
 
-let imagesBaseUrl = "https://store-api.softclub.tj/images/";
+const imagesBaseUrl = "https://store-api.softclub.tj/images/";
 
 const ProductByid = () => {
   const [quantity, setQuantity] = useState(1);
